@@ -10,6 +10,12 @@
   <body>
     <div id="shopping-list">
       <h1>{{ header}}</h1>
+      <!-- Input Box -->
+      <input type="text" v-model="newItem" placeholder="Add a new item" />
+      <!-- Priority Toggle -->
+      <label for="">
+        <input type="checkbox" v-model="newItemHighPriority" /> High Priority
+      </label>
       <!-- List Rendering -->
       <ul>
         <li v-for="({id, label}, index) in items" :key="id">{{ label }}</li>
@@ -38,6 +44,8 @@
               label: '20 cups',
             },
           ],
+          newItem: '',
+          newItemHighPriority: false,
         };
       },
     }).mount('#shopping-list');
