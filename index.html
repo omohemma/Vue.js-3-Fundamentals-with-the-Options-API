@@ -13,7 +13,7 @@
       <div class="add-item-form">
         <!-- Input Box -->
         <input
-          @keyup.enter="items.push({id:items.length + 1, label: newItem})"
+          @keyup.enter="saveItem"
           type="text"
           v-model="newItem"
           placeholder="Add a new item"
@@ -25,12 +25,7 @@
         </label>
 
         <!-- Save Button -->
-        <button
-          @click="items.push({id:items.length + 1, label: newItem})"
-          class="btn btn-primary"
-        >
-          Save Item
-        </button>
+        <button @click="saveItem" class="btn btn-primary">Save Item</button>
       </div>
 
       <!-- List Rendering -->
@@ -64,6 +59,12 @@
           newItem: '',
           newItemHighPriority: false,
         };
+      },
+      methods: {
+        saveItem() {
+          this.items.push({ id: this.items.length + 1, label: this.newItem });
+          this.newItem = '';
+        },
       },
     }).mount('#shopping-list');
   </script>
