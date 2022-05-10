@@ -14,12 +14,16 @@
         <h1>{{ header || 'Welcome'}}</h1>
         <button
           class="btn btn-cancel"
-          @click="editing = !editing"
+          @click="editing = !editing; this.newItemHighPriority = false;"
           v-if="editing"
         >
           Cancel
         </button>
-        <button class="btn btn-primary" @click="editing = !editing" v-else>
+        <button
+          class="btn btn-primary"
+          @click="editing = !editing; this.newItemHighPriority = false;"
+          v-else
+        >
           Add Item
         </button>
       </div>
@@ -52,7 +56,15 @@
 
       <!-- List Rendering -->
       <ul>
-        <li v-for="({id, label}, index) in items" :key="id">{{ label }}</li>
+        <li
+          v-for="(item, index) in items"
+          @click="togglePurchased(item)"
+          class="static-class"
+          :class="{strikeout: item.purchased, priority: item.highPriority }"
+          :key="item.id"
+        >
+          {{ item.label }}
+        </li>
       </ul>
     </div>
   </body>
@@ -66,18 +78,24 @@
           header: 'Shopping List App',
           editing: false,
           items: [
-            // {
-            //   id: 1,
-            //   label: '10 party hats',
-            // },
-            // {
-            //   id: 2,
-            //   label: '2 board games',
-            // },
-            // {
-            //   id: 3,
-            //   label: '20 cups',
-            // },
+            {
+              id: 1,
+              label: '10 party hats',
+              purchased: true,
+              highPriority: false,
+            },
+            {
+              id: 2,
+              label: '2 board games',
+              purchased: true,
+              highPriority: false,
+            },
+            {
+              id: 3,
+              label: '20 cups',
+              purchased: false,
+              highPriority: true,
+            },
           ],
           newItem: '',
           newItemHighPriority: false,
@@ -85,8 +103,16 @@
       },
       methods: {
         saveItem() {
-          this.items.push({ id: this.items.length + 1, label: this.newItem });
+          this.items.push({
+            id: this.items.length + 1,
+            label: this.newItem,
+            highPriority: this.newItemHighPriority,
+          });
           this.newItem = '';
+          this.newItemHighPriority = false;
+        },
+        togglePurchased(item) {
+          item.purchased = !item.purchased;
         },
       },
     }).mount('#shopping-list');
