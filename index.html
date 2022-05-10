@@ -57,7 +57,7 @@
       <!-- List Rendering -->
       <ul>
         <li
-          v-for="(item, index) in items"
+          v-for="(item, index) in reversedItems"
           @click="togglePurchased(item)"
           class="static-class"
           :class="{strikeout: item.purchased, priority: item.highPriority }"
@@ -100,6 +100,11 @@
           newItem: '',
           newItemHighPriority: false,
         };
+      },
+      computed:{
+        reversedItems(){
+            return [...this.items].reverse()
+        }
       },
       methods: {
         saveItem() {
