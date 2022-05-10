@@ -9,8 +9,22 @@
   </head>
   <body>
     <div id="shopping-list">
-      <h1>{{ header}}</h1>
-      <div class="add-item-form">
+        <!-- Header -->
+      <div class="header">
+        <h1>{{ header || 'Welcome'}}</h1>
+        <button
+          class="btn btn-cancel"
+          @click="editing = !editing"
+          v-if="editing"
+        >
+          Cancel
+        </button>
+        <button class="btn btn-primary" @click="editing = !editing" v-else>
+          Add Item
+        </button>
+      </div>
+
+      <div v-if="editing" class="add-item-form">
         <!-- Input Box -->
         <input
           @keyup.enter="saveItem"
@@ -28,6 +42,8 @@
         <button @click="saveItem" class="btn btn-primary">Save Item</button>
       </div>
 
+      <p v-if="items.length === 0">Nice Job! You've bought all your items!</p>
+
       <!-- List Rendering -->
       <ul>
         <li v-for="({id, label}, index) in items" :key="id">{{ label }}</li>
@@ -42,19 +58,20 @@
       data() {
         return {
           header: 'Shopping List App',
+          editing: false,
           items: [
-            {
-              id: 1,
-              label: '10 party hats',
-            },
-            {
-              id: 2,
-              label: '2 board games',
-            },
-            {
-              id: 3,
-              label: '20 cups',
-            },
+            // {
+            //   id: 1,
+            //   label: '10 party hats',
+            // },
+            // {
+            //   id: 2,
+            //   label: '2 board games',
+            // },
+            // {
+            //   id: 3,
+            //   label: '20 cups',
+            // },
           ],
           newItem: '',
           newItemHighPriority: false,
